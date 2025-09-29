@@ -1,21 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "multi-department-system/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "multi-department-system/build/$1"
-    }
-  ],
-  "env": {
-    "NODE_VERSION": "18"
-  }
+  "buildCommand": "cd multi-department-system && npm install && npm run build",
+  "outputDirectory": "multi-department-system/build",
+  "installCommand": "npm install",
+  "framework": "create-react-app"
 }

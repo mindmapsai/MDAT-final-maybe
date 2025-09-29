@@ -1,6 +1,6 @@
 # Vercel Deployment Guide
 
-## Quick Setup for Vercel
+## Updated Setup for Vercel
 
 ### 1. Connect Repository
 - Go to [vercel.com](https://vercel.com)
@@ -10,18 +10,18 @@
 ### 2. Root Directory
 In Vercel dashboard, set the **Root Directory** to `./` (root of your repository)
 
-### 3. Environment Variables
+### 3. Build Configuration
+The `vercel.json` file specifies:
+- **Install Command**: `npm install`
+- **Build Command**: `cd multi-department-system && npm install && npm run build`
+- **Output Directory**: `multi-department-system/build`
+
+### 4. Environment Variables
 Add these in Vercel dashboard under **Settings > Environment Variables**:
 ```
 REACT_APP_API_URL=https://your-backend-app.onrender.com
 REACT_APP_ENV=production
 ```
-
-### 4. Build Configuration
-Vercel will use the `vercel.json` file which specifies:
-- **Build Command**: `npm run build`
-- **Output Directory**: `build`
-- **Install Command**: `npm install`
 
 ## Project Structure
 ```
@@ -32,8 +32,7 @@ Your Repository/
 │   ├── public/
 │   └── build/                  # Build output (created during deployment)
 ├── backend/                    # Node.js backend (deploy to Render)
-├── vercel.json                 # Vercel configuration
-└── netlify.toml               # Alternative Netlify config
+└── vercel.json                 # Vercel configuration
 ```
 
 ## Backend Deployment
@@ -43,7 +42,7 @@ Keep your backend deployed on Render:
 - Update `ALLOWED_ORIGINS` in Render with your Vercel domain
 
 ## Troubleshooting
-If you get "No entrypoint found" error:
+If you get "No Output Directory" error:
 1. Ensure the **Root Directory** is set to `./` in Vercel
-2. Check that the build completes successfully
-3. Verify the `build` directory contains `index.html`
+2. Check that the `multi-department-system/build/` directory is created after build
+3. Verify the build completes successfully in the deployment logs
