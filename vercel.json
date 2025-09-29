@@ -1,6 +1,18 @@
 {
-  "buildCommand": "cd multi-department-system && npm install && npm run build",
-  "outputDirectory": "multi-department-system/build",
-  "installCommand": "npm install",
-  "framework": "create-react-app"
+  "version": 2,
+  "builds": [
+    {
+      "src": "multi-department-system/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/build/$1"
+    }
+  ]
 }

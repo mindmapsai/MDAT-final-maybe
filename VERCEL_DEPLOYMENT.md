@@ -12,9 +12,10 @@ In Vercel dashboard, set the **Root Directory** to `./` (root of your repository
 
 ### 3. Build Configuration
 The `vercel.json` file specifies:
-- **Install Command**: `npm install`
-- **Build Command**: `cd multi-department-system && npm install && npm run build`
-- **Output Directory**: `multi-department-system/build`
+- **Build Source**: `multi-department-system/package.json`
+- **Build Type**: `@vercel/static-build`
+- **Output Directory**: `build` (relative to the source)
+- **Rewrites**: Routes all requests to `/build/$1` for SPA support
 
 ### 4. Environment Variables
 Add these in Vercel dashboard under **Settings > Environment Variables**:
@@ -46,3 +47,4 @@ If you get "No Output Directory" error:
 1. Ensure the **Root Directory** is set to `./` in Vercel
 2. Check that the `multi-department-system/build/` directory is created after build
 3. Verify the build completes successfully in the deployment logs
+4. The `vercel.json` uses rewrites to serve the SPA from the build directory
