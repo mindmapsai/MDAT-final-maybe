@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "multi-department-system/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "multi-department-system/build/$1"
+    }
+  ],
+  "env": {
+    "NODE_VERSION": "18"
+  }
+}
