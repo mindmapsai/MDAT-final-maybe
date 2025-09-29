@@ -1,7 +1,7 @@
 {
-  "buildCommand": "npm run build --prefix multi-department-system && mkdir -p build && cp -r multi-department-system/build/* build/",
+  "buildCommand": "chmod +x build.sh && ./build.sh",
   "outputDirectory": "build",
-  "installCommand": "npm install && npm install --prefix multi-department-system",
+  "installCommand": "npm install",
   "rewrites": [
     {
       "source": "/(.*)",
