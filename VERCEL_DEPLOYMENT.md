@@ -12,10 +12,10 @@ In Vercel dashboard, set the **Root Directory** to `./` (root of your repository
 
 ### 3. Build Configuration
 The `vercel.json` file specifies:
-- **Build Source**: `multi-department-system/package.json`
-- **Build Type**: `@vercel/static-build`
-- **Output Directory**: `build` (relative to the source)
-- **Rewrites**: Routes all requests to `/build/$1` for SPA support
+- **Install Command**: `npm install`
+- **Build Command**: `chmod +x build.sh && ./build.sh`
+- **Output Directory**: `build` (root level)
+- **Rewrites**: Routes all requests to `/index.html` for SPA support
 
 ### 4. Environment Variables
 Add these in Vercel dashboard under **Settings > Environment Variables**:
@@ -27,11 +27,12 @@ REACT_APP_ENV=production
 ## Project Structure
 ```
 Your Repository/
-├── multi-department-system/     # React app
+├── multi-department-system/     # React app source
 │   ├── package.json
 │   ├── src/
 │   ├── public/
-│   └── build/                  # Build output (created during deployment)
+│   └── build.sh               # Build script
+├── build/                      # Build output (created during deployment)
 ├── backend/                    # Node.js backend (deploy to Render)
 └── vercel.json                 # Vercel configuration
 ```
@@ -45,6 +46,6 @@ Keep your backend deployed on Render:
 ## Troubleshooting
 If you get "No Output Directory" error:
 1. Ensure the **Root Directory** is set to `./` in Vercel
-2. Check that the `multi-department-system/build/` directory is created after build
-3. Verify the build completes successfully in the deployment logs
-4. The `vercel.json` uses rewrites to serve the SPA from the build directory
+2. Check that the `build/` directory is created at the root level after build
+3. The build script copies the React build output from `multi-department-system/build/` to `build/`
+4. Verify the build completes successfully in the deployment logs
