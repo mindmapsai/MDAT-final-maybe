@@ -10,6 +10,7 @@ const AIAssistant = ({ user }) => {
   const [position, setPosition] = useState({ x: window.innerWidth - 420, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [dragStartTime, setDragStartTime] = useState(0);
   const [pendingIssues, setPendingIssues] = useState([]);
   const [showAutoRoutePrompt, setShowAutoRoutePrompt] = useState(false);
   const messagesEndRef = useRef(null);
@@ -360,6 +361,7 @@ const AIAssistant = ({ user }) => {
   };
 
   const handleMouseDown = (e) => {
+    setDragStartTime(Date.now());
     setIsDragging(true);
     setDragOffset({
       x: e.clientX - position.x,
@@ -514,14 +516,29 @@ const AIAssistant = ({ user }) => {
         </div>
       )}
 
-      {/* Minimized Toggle Button */}
+      {/* Minimized Toggle Button - Draggable */}
       {!isOpen && (
         <div 
-          className="fixed z-50"
-          style={{ left: `${position.x + 350}px`, top: `${position.y}px` }}
+          className="fixed z-50 cursor-grab active:cursor-grabbing"
+          style={{ 
+            left: `${position.x + 350}px`, 
+            top: `${position.y}px`,
+            cursor: isDragging ? 'grabbing' : 'grab'
+          }}
+          onMouseDown={(e) => {
+            // Prevent opening the widget when starting to drag
+            e.preventDefault();
+            handleMouseDown(e);
+          }}
         >
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={(e) => {
+              // Only open if we're not dragging and it was a quick click (less than 200ms)
+              const clickDuration = Date.now() - dragStartTime;
+              if (!isDragging || clickDuration < 200) {
+                setIsOpen(true);
+              }
+            }}
             className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-3 shadow-lg transition-all duration-300 transform hover:scale-110 animate-pulse"
           >
             <div className="flex items-center">
