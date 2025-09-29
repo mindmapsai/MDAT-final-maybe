@@ -9,8 +9,8 @@ const HRDashboard = ({ user, onLogout }) => {
   const [routingSuggestions, setRoutingSuggestions] = useState([]);
   const [showRoutingModal, setShowRoutingModal] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [unassignedTechUsers, setUnassignedTechUsers] = useState([]);
 
   useEffect(() => {
     loadIssues();
@@ -44,12 +44,17 @@ const HRDashboard = ({ user, onLogout }) => {
     }
   };
 
-  const loadRoutingSuggestions = async () => {
+  const loadTeamData = async () => {
     try {
-      const suggestions = await ApiService.get('/issues/routing-suggestions');
-      setRoutingSuggestions(suggestions || []);
+      const [teamResponse, unassignedResponse] = await Promise.all([
+        ApiService.getMyTeam(),
+        ApiService.getUnassignedTechUsers()
+      ]);
+
+      setTeamMembers(teamResponse.techMembers || []);
+      setUnassignedTechUsers(unassignedResponse || []);
     } catch (error) {
-      console.error('Failed to load routing suggestions:', error);
+      console.error('Failed to load team data:', error);
     }
   };
 
@@ -96,7 +101,7 @@ const HRDashboard = ({ user, onLogout }) => {
   const handleAddTeamMember = async (techUserId) => {
     try {
       const response = await ApiService.addTeamMember(techUserId);
-      setTeamMembers(response.techMembers);
+      setTeamMembers(response.techMembers || response);
       setNotification('Team member added successfully');
       setTimeout(() => setNotification(null), 3000);
       loadTeamData(); // Refresh data
@@ -110,7 +115,7 @@ const HRDashboard = ({ user, onLogout }) => {
   const handleRemoveTeamMember = async (techUserId) => {
     try {
       const response = await ApiService.removeTeamMember(techUserId);
-      setTeamMembers(response.techMembers);
+      setTeamMembers(response.techMembers || response);
       setNotification('Team member removed successfully');
       setTimeout(() => setNotification(null), 3000);
       loadTeamData(); // Refresh data

@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build": "echo 'No build step required for backend'",
+    "deploy": "echo 'Deploy script - update with your deployment commands'",
+    "render-postbuild": "echo 'Render post-build hook executed'"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
