@@ -1,5 +1,5 @@
 {
-  "buildCommand": "chmod +x build.sh && ./build.sh",
+  "buildCommand": "cd multi-department-system && npm install && npm run build && mkdir -p ../build && cp -r build/* ../build/",
   "outputDirectory": "build",
   "installCommand": "npm install",
   "rewrites": [

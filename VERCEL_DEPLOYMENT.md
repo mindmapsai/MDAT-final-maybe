@@ -13,7 +13,7 @@ In Vercel dashboard, set the **Root Directory** to `./` (root of your repository
 ### 3. Build Configuration
 The `vercel.json` file specifies:
 - **Install Command**: `npm install`
-- **Build Command**: `chmod +x build.sh && ./build.sh`
+- **Build Command**: `cd multi-department-system && npm install && npm run build && mkdir -p ../build && cp -r build/* ../build/`
 - **Output Directory**: `build` (root level)
 - **Rewrites**: Routes all requests to `/index.html` for SPA support
 
@@ -31,8 +31,8 @@ Your Repository/
 │   ├── package.json
 │   ├── src/
 │   ├── public/
-│   └── build.sh               # Build script
-├── build/                      # Build output (created during deployment)
+│   └── build/                  # Temporary build output
+├── build/                      # Final build output (root level)
 ├── backend/                    # Node.js backend (deploy to Render)
 └── vercel.json                 # Vercel configuration
 ```
@@ -47,5 +47,5 @@ Keep your backend deployed on Render:
 If you get "No Output Directory" error:
 1. Ensure the **Root Directory** is set to `./` in Vercel
 2. Check that the `build/` directory is created at the root level after build
-3. The build script copies the React build output from `multi-department-system/build/` to `build/`
+3. The build command creates a temporary build in `multi-department-system/build/` then copies to root `build/`
 4. Verify the build completes successfully in the deployment logs
