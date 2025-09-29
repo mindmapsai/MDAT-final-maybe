@@ -12,7 +12,7 @@ In Vercel dashboard, set the **Root Directory** to `./` (root of your repository
 
 ### 3. Build Configuration
 The `vercel.json` file specifies:
-- **Install Command**: `npm install && cd multi-department-system && npm install`
+- **Install Command**: `npm install && npm install --prefix multi-department-system`
 - **Build Command**: `npm run build --prefix multi-department-system && mkdir -p build && cp -r multi-department-system/build/* build/`
 - **Output Directory**: `build` (root level)
 - **Rewrites**: Routes all requests to `/index.html` for SPA support
@@ -47,6 +47,7 @@ Keep your backend deployed on Render:
 If you get "No such file or directory" error:
 1. Ensure the **Root Directory** is set to `./` in Vercel
 2. Check that the `multi-department-system/` directory exists in your repository
-3. The build command uses `--prefix` to run npm commands in the subdirectory
-4. The build process creates `multi-department-system/build/` then copies to root `build/`
-5. Verify the build completes successfully in the deployment logs
+3. The install command uses `--prefix` to install dependencies in the subdirectory
+4. The build command uses `--prefix` to run build commands in the subdirectory
+5. The build process creates `multi-department-system/build/` then copies to root `build/`
+6. Verify the build completes successfully in the deployment logs
